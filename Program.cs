@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using PankyAPI.Data;
 using PankyAPI.Models;
-
+using PankyAPI.Models.ParkyMapper;
+using PankyAPI.Repository;
+using PankyAPI.Repository.IRepository;
+using AutoMapper;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +20,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseSqlServer(connectionString);
 });
+// Add Repository Pattern
+builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
+builder.Services.AddAutoMapper(typeof(ParkyMappings));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
